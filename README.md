@@ -1,5 +1,48 @@
 # leetcode刷题笔记
 
+## 4/17
+
++ 迭代与递归法反转链表
+
+## 递归与迭代法反转链表
+
+递归法可以先写递归到最后的情况，即只有一个`null`或者只有一个元素，即返回本身。然后试着考虑多一个元素的情况。后面的元素都已经完成了反转，则只需要把第一个元素接在反转前的第二个后面再接上`null`。即
+
+```Java
+head.next.next = head;
+head.next = null;
+```
+
+完整代码如下
+
+```Java
+public ListNode reverseList(ListNode head) {
+    if (head == null || head.next == null) return head;
+    ListNode p = reverseList(head.next);
+    head.next.next = head;
+    head.next = null;
+    return p;
+}
+```
+
+再考虑迭代。从头开始将每一个next关系反过来。此时需要一个临时应用储存next node，否则反转后下一个node丢失。
+
+```Java
+public ListNode reverseList(ListNode head) {
+    ListNode prev = null;
+    ListNode curr = head;
+    while (curr != null) {
+        ListNode nextTemp = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = nextTemp;
+    }
+    return prev;
+}
+```
+
+---
+
 ## 4/16
 
 + Arrays.sort()+lambda的应用
@@ -7,8 +50,6 @@
 + 迭代法合并两个有序链表
 
 + 迭代法遍历二叉树
-  
----
 
 ## `Arrays.sort()`的应用
 
@@ -30,8 +71,6 @@
             }
     }
 ```
-
----
 
 ## 迭代法合并两个有序链表
 
@@ -64,8 +103,6 @@ class Solution {
     }
 }
 ```
-
----
 
 ## 迭代法前序遍历二叉树
 
